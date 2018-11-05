@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Here Map API</title>
+    <script src="http://js.api.here.com/v3/3.0/mapsjs-core.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://js.api.here.com/v3/3.0/mapsjs-service.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://js.api.here.com/v3/3.0/mapsjs-mapevents.js" type="text/javascript" charset="utf-8"></script>
+    <script src="http://js.api.here.com/v3/3.0/mapsjs-ui.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="http://js.api.here.com/v3/3.0/mapsjs-ui.css" />
+    <style>
+        html,body{
+            height:100%;
+            margin:0;
+            padding:0;
+        }
+        #mapContainer{
+            height:100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="mapContainer"></div>
+    <script>
+        let platform = new H.service.Platform({
+            'app_id':'hmO1N6Q0xkefhNezXaem',
+            'app_code':'9U0sBjTtpmZciXxSvfHFbg'
+        });
+        
+        // Obtain the default map types from the platform object:
+        let defaultLayers = platform.createDefaultLayers();
+
+        // Instantiate (and display) a map object:
+        let map = new H.Map(
+            document.getElementById('mapContainer'),
+            defaultLayers.normal.map,
+            {
+                zoom: 13,
+                center: { lat: 40.750, lng: -74.001 }
+            });
+        
+        //create the default ui
+        let ui = H.ui.UI.createDefault(map, defaultLayers,'en-US');//zh-CN for Chinese
+        
+        //Enable the event system on the map instance;
+        let mapEvents = new H.mapevents.MapEvents(map);
+
+        //add event listener
+        map.addEventListener('tap',function(evt){
+            //log 'tap' and 'mouse' events
+            console.log(evt.type,evt.currentPointer.type);
+            //how to get clicked Geo location Latlng
+            console.log(map.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY));
+        });
+
+        //Instantiate the default behavior, providing the mapEvents object;
+        let behavior = new H.mapevents.Behavior(mapEvents);
+
+        //create the parameters for the geocoding request;
+        let geocodingParams = {
+            searchText:'China town, Manhattan, NY'
+        };
+
+        //Define a callback function to process the geocoding response:
+        let onResult = function(result){
+            let locations = result.Response.View[0].Result,
+                position,
+                marker;
+            //Add a marker for each location found
+            for(i=0;i<locations.length;i++){
+                position = {
+                    lat:locations[i].Location.DisplayPosition.Latitude,
+                    lng:locations[i].Location.DisplayPosition.Longitude
+                };
+                marker = new H.map.Marker(position);
+                map.addObject(marker);
+            }
+        };
+
+        //get an instance of the geocoding service;
+        let geocoder = platform.getGeocodingService();
+
+        //call the geocode method with the geocoding parameters,
+        //the callback and an error callback function(called if a
+        //communication error occurs)
+        geocoder.geocode(
+            geocodingParams,onResult,function(e){
+                alert(e);
+            }
+        );
+        
+    </script>
+</body>
+</html>
