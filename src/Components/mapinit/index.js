@@ -4,6 +4,7 @@ import $ from 'jquery';
 export default function mapInit(mapCenterAddress) {
     //here.com api init
     if(typeof H === 'undefined'){
+        //when cannot init here.com api,display alert and change text on loading screen
         alert("Can't connect to Here.com, please check your internet connection!");
         $('.loadingP').css('line-height', '30px');
         $('.loadingP').css('margin-top', '80px');
