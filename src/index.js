@@ -1,15 +1,19 @@
 import './styles/main.scss';
 import $ from 'jquery';
+import hereApiMapEvents from './Components/mapevent/index';
+import mapInit from './Components/mapinit/index';
 
-var map;
-function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: 40.750, lng: -74.001 },//Manhattan Midtown NY
-        zoom: 13
-    });
-}
+let mapCenterText = 'Flushing, New York, NY';
 
-window.initMap = initMap;
+mapInit(mapCenterText).then((value)=>{
+    let [platform, defaultLayers, map, ui] = value;
+    let myMapEvent = new hereApiMapEvents(map);
+    myMapEvent.whenYouTap();
 
-//inject google map api  
-$("body").append('<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDeFIT4z8Ef8rVvIUq2NfiUX3LOko5yNso&callback=initMap" async defer ></script >');
+    //create the parameters for the geocoding request;
+    let searchText= 'China town, Manhattan, NY';
+
+    //create marker
+    myMapEvent.createMarker(map,searchText,platform);
+})
+

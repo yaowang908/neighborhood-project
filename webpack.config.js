@@ -76,7 +76,7 @@ module.exports = {
         ]),
         new HtmlWebpackPlugin({
             title:'Neighborhood Map',
-            template: path.resolve(__dirname,'src/index.html')
+            template: path.resolve(__dirname,'src/index.ejs')
         }),
         new CompressionPlugin({
             test:/\.js(\?.*)?$/i
