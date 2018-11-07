@@ -1,11 +1,15 @@
 import './styles/main.scss';
-import $ from 'jquery';
 import hereApiMapEvents from './Components/mapevent/index';
 import mapInit from './Components/mapinit/index';
+import loadding from './Components/loadding/index';
+import $ from 'jquery';
+
+loadding();
 
 let mapCenterText = 'Flushing, New York, NY';
 
 mapInit(mapCenterText).then((value)=>{
+    $('.loading').css('display','none');
     let [platform, defaultLayers, map, ui] = value;
     let myMapEvent = new hereApiMapEvents(map);
     myMapEvent.whenYouTap();
