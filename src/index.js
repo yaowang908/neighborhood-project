@@ -6,7 +6,7 @@ import $ from 'jquery';
 
 loadding();
 
-let mapCenterText = 'Flushing, New York, NY';
+let mapCenterText = 'Midtown, New York, NY';
 
 mapInit(mapCenterText).then((value)=>{
     $('.loading').css('display','none');

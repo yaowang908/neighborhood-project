@@ -1,12 +1,18 @@
 import getLatLng from '../services/getLatLng';
+import $ from 'jquery';
 
 export default function mapInit(mapCenterAddress) {
     //here.com api init
+    if(typeof H === 'undefined'){
+        alert("Can't connect to Here.com, please check your internet connection!");
+        $('.loadingP').css('line-height', '30px');
+        $('.loadingP').css('margin-top', '80px');
+        $('.loadingP').html("Error! Can't connect to Here.com.")
+    }
     let platform = new H.service.Platform({
         'app_id': 'hmO1N6Q0xkefhNezXaem',
         'app_code': '9U0sBjTtpmZciXxSvfHFbg'
     });
-
     // Obtain the default map types from the platform object:
     let defaultLayers = platform.createDefaultLayers();
 

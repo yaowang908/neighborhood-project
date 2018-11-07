@@ -15,7 +15,7 @@ export default function geocoding(paramSearchText,platform, onResult) {
     //communication error occurs)
     geocoder.geocode(
         geocodingParams, onResult, function(e) {
-            alert(e);
+            alert("Can't connect to Here.com, please check your internet connection!"+e);
         }
     );
 }
