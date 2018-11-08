@@ -15,8 +15,8 @@ export default class hereApiMapEvents {
         addTapListener(this.map,callBack);
     }
 
-    createMarker(map, searchText, platform, markerIconLetter){
-        createMarkerComponent(map, searchText, platform, markerIconLetter);
+    createMarker(map, searchText, platform, markerIconLetter, markerClass){
+        createMarkerComponent(map, searchText, platform, markerIconLetter, markerClass);
     }
     
 }

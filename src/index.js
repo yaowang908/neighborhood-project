@@ -4,9 +4,10 @@ import mapInit from './Components/mapinit/index';
 import loadding from './Components/loading/index';
 import sidePanel from './Components/sidePanel/index';
 import $ from 'jquery';
+import ko from 'knockout';
 
-loadding();
-sidePanel();
+loadding();//add loading page fro slow connection
+sidePanel();//add sidepanel
 
 let mapCenterText = 'Midtown, New York, NY';
 
@@ -16,15 +17,15 @@ mapInit(mapCenterText).then((value)=>{
     let myMapEvent = new hereApiMapEvents(map);
     myMapEvent.whenYouTap();
 
-    //create the parameters for the geocoding request;
-    let searchText= 'China town, Manhattan, NY';
-    let markerIconLetter = 'A';
-    //create marker
-    myMapEvent.createMarker(map, searchText, platform, markerIconLetter);
+    let districtArray = ['China town, Manhattan, NY','Midtown, Manhattan, NY','Central Park, Manhattan, NY'];
+    let districtMarkerIconLetter = 'D';//Location
+    //create location markers with customized iconLetter and className
+    myMapEvent.createMarker(map, districtArray, platform, districtMarkerIconLetter, 'district');
     
-    //create multiple markers at once
-    let searchArray = ['Midtown, Manhattan, NY','Central Park, Manhattan, NY']
-    myMapEvent.createMarker(map, searchArray, platform, markerIconLetter);
+    let restaurantArray = ['300 Park Ave, New York, NY 10022','225 E 60th St, New York, NY 10022','315 5th Ave Fl 2, New York, NY 10016'];
+    let restaurantMarkerIconLetter = "F";//Food
+    //create restaurant markers with customized iconLetter and className
+    myMapEvent.createMarker(map, restaurantArray, platform, restaurantMarkerIconLetter, 'restaurant');
 
 })
 

@@ -1,9 +1,9 @@
 import geocodingservice from '../services/geocoding'; 
 import getLatLng from '../services/getLatLng';
 
-export default function createMarker(map, searchText, platform, markerIconLetter = 'H'){
+export default function createMarker(map, searchText, platform, markerIconLetter = 'H', markerClass =""){
 
-    let markerIconDom = '<div class="markers"><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><rect stroke="white" fill="#1b468d" x="1" y="1" width="22" height="22" /><text x="12" y="18" font-size="12pt" font-family="Arial" font-weight="bold" text-anchor="middle" fill="white">'+ markerIconLetter +'</text></svg></div>'
+    let markerIconDom = '<div class="markers '+markerClass+'"><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><rect stroke="white" fill="#1b468d" x="1" y="1" width="22" height="22" /><text x="12" y="18" font-size="12pt" font-family="Arial" font-weight="bold" text-anchor="middle" fill="white">'+ markerIconLetter +'</text></svg></div>'
     // console.dir(searchText);
     let icon = new H.map.DomIcon(markerIconDom);
 
@@ -24,7 +24,7 @@ export default function createMarker(map, searchText, platform, markerIconLetter
         }
         
     }).catch(function(err){
-        alert("Something is wrong! See below:" + err);
+        alert("Something is wrong! See below:</br>" + err);
     });
 }
 
