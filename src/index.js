@@ -21,5 +21,10 @@ mapInit(mapCenterText).then((value)=>{
     let markerIconLetter = 'A';
     //create marker
     myMapEvent.createMarker(map, searchText, platform, markerIconLetter);
+    
+    //create multiple markers at once
+    let searchArray = ['Midtown, Manhattan, NY','Central Park, Manhattan, NY']
+    myMapEvent.createMarker(map, searchArray, platform, markerIconLetter);
+
 })
 
