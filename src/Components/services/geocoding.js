@@ -1,4 +1,4 @@
-export default function geocoding(paramSearchText,platform, onResult) {
+export default function geocoding(paramSearchText,platform, onResult,onError) {
     //searchText: 'China town, Manhattan, NY'
     //platform is api object created on main index.js
     //onResult is function to run when geocoding return result;
@@ -14,9 +14,7 @@ export default function geocoding(paramSearchText,platform, onResult) {
     //the callback and an error callback function(called if a
     //communication error occurs)
     geocoder.geocode(
-        geocodingParams, onResult, function(e) {
-            alert("Can't connect to Here.com, please check your internet connection!"+e);
-        }
+        geocodingParams, onResult, onError
     );
 }
 

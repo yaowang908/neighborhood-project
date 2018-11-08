@@ -18,8 +18,8 @@ mapInit(mapCenterText).then((value)=>{
 
     //create the parameters for the geocoding request;
     let searchText= 'China town, Manhattan, NY';
-
+    let markerIconLetter = 'A';
     //create marker
-    myMapEvent.createMarker(map,searchText,platform);
+    myMapEvent.createMarker(map, searchText, platform, markerIconLetter);
 })
 
