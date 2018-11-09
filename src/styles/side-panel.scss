@@ -1,14 +1,14 @@
 $sidePanelBackground: #082068;
 $filterBackground: #3064ff;
-$searchTextColor: #fff;
+$textColor: #fff;
 
 div{
     margin: 0;
     padding: 0;
 }
 .side-panel{
-    width:20vw;
-    min-width:200px;
+    width:25vw;
+    min-width:250px;
     height:100%;
     position: absolute;
     top:0;
@@ -42,7 +42,7 @@ div{
                 float: left;
                 width: 40px;
                 height: 30px;
-                color: $searchTextColor;
+                color: $textColor;
                 text-align: center;
                 line-height: 30px;
 
@@ -62,5 +62,34 @@ div{
         position: relative;
         margin:0;
         padding:0;
+        overflow: hidden;
+        box-sizing: border-box;
+        overflow-y: scroll;
+        &::-webkit-scrollbar {
+                display:none;
+            }
+        ul {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            margin-top: 20px;
+            list-style-type: none;
+            li {
+                color: $textColor;
+                width: 100%;
+                margin: 0;
+                padding: 5px 30px;
+                border-bottom: $filterBackground solid 1px;
+                margin-bottom: 20px;
+
+            }
+        }
+        .side-panel-bottom-placeholder {
+            width:100%;
+            padding:0;
+            margin:0;
+            height:50px;
+        }
     }
 }

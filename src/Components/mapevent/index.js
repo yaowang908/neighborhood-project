@@ -1,5 +1,6 @@
 import addTapListener from './addTapListener';
 import createMarkerComponent from './createMarker';
+import { getMarkerLatLng } from './createMarker';
 
 export default class hereApiMapEvents {
     
@@ -15,8 +16,12 @@ export default class hereApiMapEvents {
         addTapListener(this.map,callBack);
     }
 
-    createMarker(map, searchText, platform, markerIconLetter, markerClass){
-        createMarkerComponent(map, searchText, platform, markerIconLetter, markerClass);
+    createMarker(map, searchText, platform, markerDomTemplate){
+        createMarkerComponent(map, searchText, platform, markerDomTemplate);
+    }
+
+    getMarkersLatLng(searchText, platform){
+        return getMarkerLatLng(searchText, platform);
     }
     
 }

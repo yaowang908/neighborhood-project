@@ -5,5 +5,13 @@
             <div id="search">Go</div>
         </div>
     </div>
-    <div class="list-container"></div>
+    <div class="list-container">
+        <ul data-bind="foreach: markers, visible: markers().length>0">
+            <li data-bind="visible: isVisible()">
+                <span data-bind="text: name, click: $parent.hideMarker"></span>
+                <span></span>
+            </li>
+        </ul>
+        <div class="side-panel-bottom-placeholder">&nbsp;</div>
+    </div>
 </div>

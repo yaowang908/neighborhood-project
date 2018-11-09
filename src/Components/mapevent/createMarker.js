@@ -1,21 +1,21 @@
 import geocodingservice from '../services/geocoding'; 
 import getLatLng from '../services/getLatLng';
 
-export default function createMarker(map, searchText, platform, markerIconLetter = 'H', markerClass =""){
+export default function createMarker(map, searchText, platform, markerDomTemplate){
 
-    let markerIconDom = '<div class="markers '+markerClass+'"><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><rect stroke="white" fill="#1b468d" x="1" y="1" width="22" height="22" /><text x="12" y="18" font-size="12pt" font-family="Arial" font-weight="bold" text-anchor="middle" fill="white">'+ markerIconLetter +'</text></svg></div>'
+    // let markerIconDom = '<div class="markers '+markerClass+'"><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><rect stroke="white" fill="#1b468d" x="1" y="1" width="22" height="22" /><text x="12" y="18" font-size="12pt" font-family="Arial" font-weight="bold" text-anchor="middle" fill="white">'+ markerIconLetter +'</text></svg></div>'
     // console.dir(searchText);
-    let icon = new H.map.DomIcon(markerIconDom);
+    let icon = new H.map.DomIcon(markerDomTemplate);
 
     getMarkerLatLng(searchText,platform).then(function(latlng){
         //get an objects array or one pair of lat lng
-        // console.dir(latlng);
+        //set markers on map
         if (Array.isArray(latlng)){
             latlng.map((x) => {
                 let marker = new H.map.DomMarker(x, { icon: icon });
                 map.addObject(marker);
             });
-            console.log('Here comes an array!');
+            // console.log('Here comes an array!');
             return true;
         } else {
             let marker = new H.map.DomMarker(latlng, { icon: icon });
@@ -28,13 +28,13 @@ export default function createMarker(map, searchText, platform, markerIconLetter
     });
 }
 
-function getMarkerLatLng(searchText,platform) {
+export function getMarkerLatLng(searchText,platform) {
     if(Array.isArray(searchText)) {
         //get multiple lat lng
         return Promise.all(searchText.map((x)=>{
                 return getLatLng(x,platform);
             })).then(function(value){
-                console.log(value);
+                // console.log(value);
                 return value;//an array contains all lat lng
         })
         
