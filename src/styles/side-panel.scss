@@ -82,7 +82,11 @@ div{
                 padding: 5px 30px;
                 border-bottom: $filterBackground solid 1px;
                 margin-bottom: 20px;
-
+                .click-to-hide-marker {
+                    position: absolute;
+                    right:10px;
+                    cursor: pointer;
+                }
             }
         }
         .side-panel-bottom-placeholder {

@@ -7,9 +7,9 @@
     </div>
     <div class="list-container">
         <ul data-bind="foreach: markers, visible: markers().length>0">
-            <li data-bind="css: className, visible: isVisible(), click: $parent.hideMarker">
+            <li data-bind="css: className, visible: isVisible(), event: {mouseover: $parent.showCloseButton, mouseout: $parent.hideCloseButton}">
                 <span data-bind="text: name"></span>
-                <span></span>
+                <span data-bind="visible: closeButtonEnabled, click: $parent.hideMarker" class="small material-icons click-to-hide-marker">close</span>
             </li>
         </ul>
         <div class="side-panel-bottom-placeholder">&nbsp;</div>

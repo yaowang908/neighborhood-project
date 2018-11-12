@@ -16,8 +16,7 @@ function MarkerModel(location) {
     this.iconLetter = location.iconLetter;
     this.type = location.type;
     this.geoPoint = ko.observable();
-    this.screenPointX = ko.observable();
-    this.screenPointY = ko.observable();
+    this.closeButtonEnabled = ko.observable(false);
 }
 
 function MarkersViewModel(platform, defaultLayers, map, ui, myMapEvent) {
@@ -64,7 +63,15 @@ function MarkersViewModel(platform, defaultLayers, map, ui, myMapEvent) {
         self.onMapObjects = result;
     }).catch((err)=>{alert(err)});
 
-    
+    self.showCloseButton = function(marker) {
+        //show hide marker button
+        marker.closeButtonEnabled(true);
+    }
+    self.hideCloseButton = function(marker) {
+        //hide 'hide marker button' when mouse leave marker entry on side panel
+        marker.closeButtonEnabled(false);
+    }
+
     self.hideMarker = function(marker){
         if(self.onMapObjects) {
             marker.isVisible(false);
@@ -98,6 +105,7 @@ $(document).ready(function(){
     let mapCenterText = 'Midtown, New York, NY';
 
     loadding();//add loading page fro slow connection
+
     mapInit(mapCenterText).then((value) => {
         $('.loading').css('display', 'none');
         let [platform, defaultLayers, map, ui] = value;
@@ -105,7 +113,6 @@ $(document).ready(function(){
         myMapEvent.whenYouTap();
 
         let markerViewModel = new MarkersViewModel(platform, defaultLayers, map, ui, myMapEvent);
-
         ko.applyBindings(markerViewModel);
     });
 });
