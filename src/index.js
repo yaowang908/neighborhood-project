@@ -92,11 +92,18 @@ function MarkersViewModel(platform, defaultLayers, map, ui, myMapEvent) {
         }
     }
 
-    self.showDetail = function(location) {
+    self.showDetail = function(marker) {
         //when clicked show corresponding infowindow with details about location
         //TODO: 
         //1.template of infowindow;2.API to 3rd party services for details 
 
+        //get location
+        myMapEvent.getMarkersLatLng(marker.address,platform).then((location)=>{
+            let bubble = new H.ui.InfoBubble(location,{
+                content:'<b>Hellow World</b>'
+            });
+            ui.addBubble(bubble);
+        }).catch((err)=>{alert(err)})
     };
 }
 //KO only need data-bind , it's possible been done by changing template in createMaker.js
