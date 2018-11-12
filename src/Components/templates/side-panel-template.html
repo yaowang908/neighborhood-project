@@ -7,8 +7,8 @@
     </div>
     <div class="list-container">
         <ul data-bind="foreach: markers, visible: markers().length>0">
-            <li data-bind="visible: isVisible()">
-                <span data-bind="text: name, click: $parent.hideMarker"></span>
+            <li data-bind="css: className, visible: isVisible(), click: $parent.hideMarker">
+                <span data-bind="text: name"></span>
                 <span></span>
             </li>
         </ul>

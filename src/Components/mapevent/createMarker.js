@@ -7,7 +7,7 @@ export default function createMarker(map, searchText, platform, markerDomTemplat
     // console.dir(searchText);
     let icon = new H.map.DomIcon(markerDomTemplate);
 
-    getMarkerLatLng(searchText,platform).then(function(latlng){
+    return getMarkerLatLng(searchText,platform).then(function(latlng){
         //get an objects array or one pair of lat lng
         //set markers on map
         if (Array.isArray(latlng)){

@@ -17,7 +17,8 @@ export default class hereApiMapEvents {
     }
 
     createMarker(map, searchText, platform, markerDomTemplate){
-        createMarkerComponent(map, searchText, platform, markerDomTemplate);
+        return createMarkerComponent(map, searchText, platform, markerDomTemplate);
+        //promise
     }
 
     getMarkersLatLng(searchText, platform){
