@@ -1,19 +1,10 @@
-html,body {
-    height:100%;
-    margin:0;
-    padding:0;  
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;  
 }
-#mapContainer{
+#mapContainer {
     height: 100%;
     position: relative;
-    ul{
-        margin: 0;
-        padding: 0;
-        li{
-            position: absolute;
-            list-style-type: none;
-            // right: 0;
-            z-index: 100;
-        }
-    }
 }
