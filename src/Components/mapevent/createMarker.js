@@ -39,10 +39,11 @@ export function getMarkerLatLng(searchText,platform) {
         })
         
     } else {
+        // console.log('address is: '+searchText);
         //get single lat lng
         return  getLatLng(searchText, platform).then(function(value){
                     // console.log(value);
                     return value; //a object contains one pair of lat lng
-                });
+                }).catch((err)=>{alert(err)});
     }
 }
