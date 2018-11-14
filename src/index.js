@@ -32,6 +32,7 @@ class MarkersViewModel {
         let tempMarkers = $.map(self.locations, function (item) { return new MarkerModel(item) });
         self.markers = ko.observableArray(tempMarkers);
         self.onMapObjects = [];
+        self.init = self.init.bind(self);
         self.showDetail = self.showDetail.bind(self);
         self.hideMarker = self.hideMarker.bind(self);
     }
@@ -84,8 +85,19 @@ class MarkersViewModel {
         ).then(() => {
             let objects = this.map.getObjects();
             $.map(objects, function (item, index) {
-                console.log(item);
-                item.addEventListener('click', function () { console.log('yes!Im clicked') });
+                let group = new H.map.Group();
+                self.map.addObject(group);
+                group.addEventListener('tap', function (evt) {
+                    // //log 'tap' and 'mouse' events
+                    // console.log(evt.type, evt.currentPointer.type);
+                    // //how to get clicked Geo location Latlng
+                    // console.log(map.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY));
+                    let pointerLocation = self.map.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY);
+                    self.ui.getBubbles().forEach(bub=>self.ui.removeBubble(bub));//clear other bubbles
+                    self.showDetail(pointerLocation,'',true);
+                });
+                group.addObject(item);
+                // item.addEventListener('click', function () { console.log('yes!Im clicked') });
                 //FIXME: addEventListener is not working
                 //******Click event must monitored by knockout */
             });
@@ -135,7 +147,7 @@ $(document).ready(function(){
         $('.loading').css('display', 'none');
         let [platform, defaultLayers, map, ui] = value;
         let myMapEvent = new hereApiMapEvents(map);
-        myMapEvent.whenYouTap();
+        // myMapEvent.whenYouTap();
 
         let markerViewModel = new MarkersViewModel(platform, defaultLayers, map, ui, myMapEvent, defaultLocations);
         

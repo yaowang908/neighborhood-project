@@ -1,4 +1,3 @@
-import addTapListener from './addTapListener';
 import createMarkerComponent from './createMarker';
 import { getMarkerLatLng } from './createMarker';
 
@@ -10,10 +9,6 @@ export default class hereApiMapEvents {
         this.mapEvents = new H.mapevents.MapEvents(map);
         //Instantiate the default behavior, providing the mapEvents object;
         this.behavior = new H.mapevents.Behavior(this.mapEvents);
-    }
-
-    whenYouTap(callBack){
-        addTapListener(this.map,callBack);
     }
 
     createMarker(map, searchText, platform, markerDomTemplate){
