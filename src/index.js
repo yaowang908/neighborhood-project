@@ -6,6 +6,7 @@ import loadding from './Components/loading/index';
 import sidePanel from './Components/sidePanel/index';
 import $ from 'jquery';
 import ko from 'knockout';
+import fourSquareApi from './Components/foursquareinit/index';
 
 //KO strats here
 function MarkerModel(location) {
@@ -35,6 +36,7 @@ class MarkersViewModel {
         self.init = self.init.bind(self);
         self.showDetail = self.showDetail.bind(self);
         self.hideMarker = self.hideMarker.bind(self);
+        self.fourSquare = new fourSquareApi();
     }
 
     createMarkerDomTemplate(markerClass, markerIconLetter) {
@@ -52,11 +54,16 @@ class MarkersViewModel {
         // console.log(pureLatLng);
         //FIXED: problem was 'this' keyword inside a click event listener is refer to the DOM element not this class
         //Another problem was knockout has a second event parameter passed in by default, have to skip this 
+        self.ui.getBubbles().forEach(bub => self.ui.removeBubble(bub));//clear other bubbles
         if (!pureLatLng) {
             //passed in address, 
             //get location
             self.myMapEvent.getMarkersLatLng(marker.address, self.platform).then((location) => {
-                // console.log('location is: '+location);
+                // console.dir(location);
+                self.fourSquare.search(location.lat, location.lng, 'pizza').then((data)=>{
+                    console.log(data);
+                });
+                
                 let bubble = new H.ui.InfoBubble(location, {
                     content: '<b>Hellow World</b>'
                 });
@@ -64,6 +71,9 @@ class MarkersViewModel {
             }).catch((err) => { alert(err) })
         } else {
             //passed in latlng pair
+            self.fourSquare.search(marker.lat, marker.lng, 'pizza').then((data) => {
+                console.log(data);
+            });
             let bubble = new H.ui.InfoBubble(marker, {
                 content: '<b>Hellow World</b>'
             });
@@ -88,18 +98,13 @@ class MarkersViewModel {
                 let group = new H.map.Group();
                 self.map.addObject(group);
                 group.addEventListener('tap', function (evt) {
-                    // //log 'tap' and 'mouse' events
-                    // console.log(evt.type, evt.currentPointer.type);
-                    // //how to get clicked Geo location Latlng
-                    // console.log(map.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY));
+                    //log 'tap' and 'mouse' events,console.log(evt.type, evt.currentPointer.type);
+                    //how to get clicked Geo location Latlng, console.log(map.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY));
                     let pointerLocation = self.map.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY);
                     self.ui.getBubbles().forEach(bub=>self.ui.removeBubble(bub));//clear other bubbles
                     self.showDetail(pointerLocation,'',true);
                 });
                 group.addObject(item);
-                // item.addEventListener('click', function () { console.log('yes!Im clicked') });
-                //FIXME: addEventListener is not working
-                //******Click event must monitored by knockout */
             });
             //get all object added to map
             return objects;
@@ -117,19 +122,17 @@ class MarkersViewModel {
 
     hideMarker(marker) {
         let self = this;
+        self.ui.getBubbles().forEach(bub => self.ui.removeBubble(bub));//clear bubbles
         if (self.onMapObjects) {
             marker.isVisible(false);
             let markerObject;
             for (let i = 0; i < self.onMapObjects.length; i++) {
-                // console.log(self.onMapObjects[i].icon.i.classList[1]);
+                //find coresponding marker on map
                 if (self.onMapObjects[i].icon.i.classList[1] === marker.className) {
                     markerObject = self.onMapObjects[i];
                 }
             }
-            markerObject.setVisibility(false);
-            // map.removeObject(markerObject);
-            // console.log(marker.name+' '+marker.isVisible());
-            // console.log(marker.className);
+            markerObject.setVisibility(false);//hide marker
         } else {
             //if on objects are added to map
             alert('Be patient!');
@@ -147,8 +150,6 @@ $(document).ready(function(){
         $('.loading').css('display', 'none');
         let [platform, defaultLayers, map, ui] = value;
         let myMapEvent = new hereApiMapEvents(map);
-        // myMapEvent.whenYouTap();
-
         let markerViewModel = new MarkersViewModel(platform, defaultLayers, map, ui, myMapEvent, defaultLocations);
         
         markerViewModel.init().then(function (result) {//call init, promise ends, returned all markers
