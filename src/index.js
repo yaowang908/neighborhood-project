@@ -7,6 +7,7 @@ import sidePanel from './Components/sidePanel/index';
 import $ from 'jquery';
 import ko from 'knockout';
 import fourSquareApi from './Components/foursquareinit/index';
+import wikipediaApi from './Components/wikipedia/index';
 
 //KO strats here
 function MarkerModel(location) {
@@ -37,6 +38,7 @@ class MarkersViewModel {
         self.showDetail = self.showDetail.bind(self);
         self.hideMarker = self.hideMarker.bind(self);
         self.fourSquare = new fourSquareApi();
+        self.wikipediaApi = new wikipediaApi();
     }
 
     createMarkerDomTemplate(markerClass, markerIconLetter) {
@@ -59,25 +61,57 @@ class MarkersViewModel {
             //passed in address, 
             //get location
             self.myMapEvent.getMarkersLatLng(marker.address, self.platform).then((location) => {
-                // console.dir(location);
-                self.fourSquare.search(location.lat, location.lng, 'pizza').then((data)=>{
-                    console.log(data);
-                });
+                if(marker.iconLetter === 'D') {
+                    //location is district
+                    //use wikipedia
+                    self.wikipediaApi.search(marker.name).then((pageid)=>{
+                        self.wikipediaApi.getPage(pageid).then((result)=>{
+                            // console.dir(x);
+                            let bubble = new H.ui.InfoBubble(location, {
+                                content: '<b>'+result.pageTitle+'</b><img src="'+result.url+'" />'
+                            });
+                            self.ui.addBubble(bubble);
+                            return result;
+                        });
+                    }).catch((err)=>{alert(err)});
+                } else {
+                    //location is place use foursquare
+                    self.fourSquare.search(location.lat, location.lng, 'pizza').then((data)=>{
+                        console.log(data);
+                    });
+                }
                 
-                let bubble = new H.ui.InfoBubble(location, {
-                    content: '<b>Hellow World</b>'
-                });
-                self.ui.addBubble(bubble);
             }).catch((err) => { alert(err) })
         } else {
+            //TODO: when passing in latlng pair, need to know which marker is it
+            //get marker name by marker.className
             //passed in latlng pair
+            console.log('arguments[3]: '+arguments[3]);
+            let thisMarker;
+            $.map(self.markers(),function(item){
+                console.log(item.className);
+                if(item.className == arguments[3]){
+                    thisMarker = item;
+                    console.log('match!');
+                    //FIXME: wont go through this if statement
+                }
+                
+            });
+            
+
             self.fourSquare.search(marker.lat, marker.lng, 'pizza').then((data) => {
-                console.log(data);
+                // console.log(data);
             });
-            let bubble = new H.ui.InfoBubble(marker, {
-                content: '<b>Hellow World</b>'
-            });
-            self.ui.addBubble(bubble);
+            self.wikipediaApi.search('Midtown Manhattan').then((pageid) => {
+                self.wikipediaApi.getPage(pageid).then((result) => {
+                    // console.dir(x);
+                    let bubble = new H.ui.InfoBubble(marker, {
+                        content: '<h4>' + result.pageTitle + '</h4><img src="' + result.url + '" />'
+                    });
+                    self.ui.addBubble(bubble);
+                    return result;
+                });
+            }).catch((err) => { alert(err) });
         }
 
     } //end of showDetail
@@ -102,7 +136,8 @@ class MarkersViewModel {
                     //how to get clicked Geo location Latlng, console.log(map.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY));
                     let pointerLocation = self.map.screenToGeo(evt.currentPointer.viewportX, evt.currentPointer.viewportY);
                     self.ui.getBubbles().forEach(bub=>self.ui.removeBubble(bub));//clear other bubbles
-                    self.showDetail(pointerLocation,'',true);
+                    // console.log(item);
+                    self.showDetail(pointerLocation,'',true,item.icon.i.classList[1],);
                 });
                 group.addObject(item);
             });
