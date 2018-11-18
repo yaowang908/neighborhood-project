@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import foursQuareSearch from './search';
 import foursQuareGetVenueDetail from './getVenueDetail';
+import noPhotoAvailable from '../../../assets/No-Photo-Available.jpg'
 
 export default class fourSquareApi {
     constructor(){
@@ -25,9 +26,17 @@ export default class fourSquareApi {
         });
     }
 
-    bestPhotoUrl(prefix,width,height,suffix) {
+    bestPhotoUrl(result) {
         let self = this;
-        return prefix+width+'x'+height+suffix;
+        if(result.response.venue.bestPhoto) {
+            return result.response.venue.bestPhoto.prefix+
+                result.response.venue.bestPhoto.width+ 'x' +
+                result.response.venue.bestPhoto.height+
+                result.response.venue.bestPhoto.suffix;
+        } else {
+            return noPhotoAvailable;
+        }
+        
     }
 }
 

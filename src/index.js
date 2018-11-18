@@ -117,12 +117,7 @@ class MarkersViewModel {
                 }).then((venueID)=>{
                     self.fourSquare.detail(venueID).then((result)=>{
                         console.log(result);
-                        let photoUrl = self.fourSquare.bestPhotoUrl(
-                            result.response.venue.bestPhoto.prefix,
-                            result.response.venue.bestPhoto.width,
-                            result.response.venue.bestPhoto.height,
-                            result.response.venue.bestPhoto.suffix,
-                            )
+                        let photoUrl = self.fourSquare.bestPhotoUrl(result);
                         // console.log(photoUrl);
                         return {
                             url: photoUrl,
