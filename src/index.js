@@ -39,6 +39,7 @@ class MarkersViewModel {
         self.hideMarker = self.hideMarker.bind(self);
         self.fourSquare = new fourSquareApi();
         self.wikipediaApi = new wikipediaApi();
+        self.getDetailInfo = self.getDetailInfo.bind(self);
     }
 
     createMarkerDomTemplate(markerClass, markerIconLetter) {
@@ -48,73 +49,81 @@ class MarkersViewModel {
 
     showDetail(marker, event, pureLatLng = false) {
         //when clicked show corresponding infowindow with details about location
-        //TODO: 
-        //1.template of infowindow;
-        //1.5: create marker property to hold state of infobubble like isVisible
-        //2.API to 3rd party services for details 
         let self = this;
-        // console.log(pureLatLng);
         //FIXED: problem was 'this' keyword inside a click event listener is refer to the DOM element not this class
         //Another problem was knockout has a second event parameter passed in by default, have to skip this 
         self.ui.getBubbles().forEach(bub => self.ui.removeBubble(bub));//clear other bubbles
         if (!pureLatLng) {
-            //passed in address, 
-            //get location
-            self.myMapEvent.getMarkersLatLng(marker.address, self.platform).then((location) => {
-                if(marker.iconLetter === 'D') {
-                    //location is district
-                    //use wikipedia
-                    self.wikipediaApi.search(marker.name).then((pageid)=>{
-                        self.wikipediaApi.getPage(pageid).then((result)=>{
-                            // console.dir(x);
-                            let bubble = new H.ui.InfoBubble(location, {
-                                content: '<b>'+result.pageTitle+'</b><img src="'+result.url+'" />'
-                            });
-                            self.ui.addBubble(bubble);
-                            return result;
-                        });
-                    }).catch((err)=>{alert(err)});
-                } else {
-                    //location is place use foursquare
-                    self.fourSquare.search(location.lat, location.lng, 'pizza').then((data)=>{
-                        console.log(data);
-                    });
-                }
-                
-            }).catch((err) => { alert(err) })
+            //when click on side panel
+            self.getDetailInfo(marker);
         } else {
-            //TODO: when passing in latlng pair, need to know which marker is it
+            // when clicked on map elements
+            //when passing in latlng pair, need to know which marker is it
             //get marker name by marker.className
-            //passed in latlng pair
-            console.log('arguments[3]: '+arguments[3]);
+            let clickedClassName = arguments[3];
             let thisMarker;
             $.map(self.markers(),function(item){
-                console.log(item.className);
-                if(item.className == arguments[3]){
-                    thisMarker = item;
-                    console.log('match!');
-                    //FIXME: wont go through this if statement
+                if(item.className === clickedClassName){
+                    thisMarker = item;//get clicked marker
                 }
-                
             });
-            
-
-            self.fourSquare.search(marker.lat, marker.lng, 'pizza').then((data) => {
-                // console.log(data);
-            });
-            self.wikipediaApi.search('Midtown Manhattan').then((pageid) => {
-                self.wikipediaApi.getPage(pageid).then((result) => {
-                    // console.dir(x);
-                    let bubble = new H.ui.InfoBubble(marker, {
-                        content: '<h4>' + result.pageTitle + '</h4><img src="' + result.url + '" />'
-                    });
-                    self.ui.addBubble(bubble);
-                    return result;
-                });
-            }).catch((err) => { alert(err) });
+            self.getDetailInfo(thisMarker);
         }
 
     } //end of showDetail
+
+    getDetailInfo(marker) {
+        let self = this;
+        self.myMapEvent.getMarkersLatLng(marker.address, self.platform).then((location) => {
+            if (marker.iconLetter === 'D') {
+                //location is district
+                //use wikipedia
+                self.wikipediaApi.search(marker.name).then((pageid) => {
+                    self.wikipediaApi.getPage(pageid).then((result) => {
+                        // console.dir(x);
+                        let bubble = new H.ui.InfoBubble(location, {
+                            content: '<b>' + result.pageTitle + '</b><img src="' + result.url + '" width="150px"/>'
+                        });
+                        self.ui.addBubble(bubble);
+                        return result;
+                    });
+                }).catch((err) => { alert(err) });
+            } else {
+                //location is place use foursquare
+                // console.log(marker);
+                self.fourSquare.search(location.lat, location.lng, marker.name).then((data) => {
+                    // console.log(data.response.venues[0].id);
+                    if(data.meta.code == '200'){
+                        //got result
+                        let venueID = data.response.venues[0].id;
+                        return venueID;
+                    }
+                }).then((venueID)=>{
+                    self.fourSquare.detail(venueID).then((result)=>{
+                        console.log(result);
+                        let photoUrl = self.fourSquare.bestPhotoUrl(
+                            result.response.venue.bestPhoto.prefix,
+                            result.response.venue.bestPhoto.width,
+                            result.response.venue.bestPhoto.height,
+                            result.response.venue.bestPhoto.suffix,
+                            )
+                        // console.log(photoUrl);
+                        return {
+                            url: photoUrl,
+                            address:result.response.venue.location.formattedAddress,
+                            name: result.response.venue.name
+                        };
+                    }).then((result)=>{
+                        let bubble = new H.ui.InfoBubble(location, {
+                            content: '<b>' + result.name + '</b><p>'+result.address[0]+'</p><img src="' + result.url + '" width="150px"/>'
+                        });
+                        self.ui.addBubble(bubble);
+                        return result;
+                    });
+                }).catch((err)=>{alert(err)});
+            }
+        }).catch((err) => { alert(err) })
+    }//end of getDetailInfo()
 
     init() {
         let self = this;

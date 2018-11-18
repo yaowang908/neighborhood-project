@@ -1,5 +1,6 @@
 import $ from 'jquery';
-import foursquaresearch from './search';
+import foursQuareSearch from './search';
+import foursQuareGetVenueDetail from './getVenueDetail';
 
 export default class fourSquareApi {
     constructor(){
@@ -12,9 +13,21 @@ export default class fourSquareApi {
 
     search(lat,lng,query){
         let self = this;
-        return foursquaresearch(self.init.Client_ID,self.init.Client_Secret,lat,lng,query).then((data)=>{
+        return foursQuareSearch(self.init.Client_ID,self.init.Client_Secret,lat,lng,query).then((data)=>{
             return data;
         });        
+    }
+
+    detail(Venue_ID){
+        let self = this;
+        return foursQuareGetVenueDetail(Venue_ID, self.init.Client_ID,self.init.Client_Secret).then((data)=>{
+            return data;
+        });
+    }
+
+    bestPhotoUrl(prefix,width,height,suffix) {
+        let self = this;
+        return prefix+width+'x'+height+suffix;
     }
 }
 
