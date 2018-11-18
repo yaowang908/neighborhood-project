@@ -31,15 +31,30 @@ class MarkersViewModel {
         self.ui = ui;
         self.myMapEvent = myMapEvent;
         self.locations = defaultLocations;
+        // variables above are for here.com api
         let tempMarkers = $.map(self.locations, function (item) { return new MarkerModel(item) });
         self.markers = ko.observableArray(tempMarkers);
         self.onMapObjects = [];
         self.init = self.init.bind(self);
         self.showDetail = self.showDetail.bind(self);
         self.hideMarker = self.hideMarker.bind(self);
+        self.bringBackMarker = self.bringBackMarker.bind(self);
         self.fourSquare = new fourSquareApi();
         self.wikipediaApi = new wikipediaApi();
         self.getDetailInfo = self.getDetailInfo.bind(self);
+        self.filterInput = ko.observable("");
+        self.filterList = ko.computed(function(){
+            $.map(self.markers(),function(item){
+                if(self.filterInput() && item.name.toLowerCase().indexOf(self.filterInput().toLowerCase()) == -1){
+                    //not empty and this marker doesn't contain filterInput()
+                    item.isVisible(false);
+                    self.hideMarker(item);
+                } else if (self.filterInput() === '') {
+                    item.isVisible(true);
+                    self.bringBackMarker(item);
+                }
+            })
+        });
     }
 
     createMarkerDomTemplate(markerClass, markerIconLetter) {
@@ -73,6 +88,7 @@ class MarkersViewModel {
     } //end of showDetail
 
     getDetailInfo(marker) {
+        //get info for clicked marker from Wiki API and Foursquare API
         let self = this;
         self.myMapEvent.getMarkersLatLng(marker.address, self.platform).then((location) => {
             if (marker.iconLetter === 'D') {
@@ -182,6 +198,26 @@ class MarkersViewModel {
             alert('Be patient!');
         }
     }//end of hideMarker
+
+    bringBackMarker(marker) {
+        let self = this;
+        self.ui.getBubbles().forEach(bub => self.ui.removeBubble(bub));//clear bubbles
+        if (self.onMapObjects) {
+            marker.isVisible(true);
+            let markerObject;
+            for (let i = 0; i < self.onMapObjects.length; i++) {
+                //find coresponding marker on map
+                if (self.onMapObjects[i].icon.i.classList[1] === marker.className) {
+                    markerObject = self.onMapObjects[i];
+                    markerObject.setVisibility(true);//show marker
+                }
+            }
+            
+        } else {
+            //if on objects are added to map
+            alert('Be patient!');
+        }
+    }
 
 }// end of viewModel class
 

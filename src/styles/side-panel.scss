@@ -29,7 +29,7 @@ div{
             margin-left:-100px;
             background-color: $filterBackground;
             #filter-box{
-                width:160px;
+                width:140px;
                 height:30px;
                 box-sizing: border-box;
                 position: relative;
@@ -45,7 +45,7 @@ div{
                 color: $textColor;
                 text-align: center;
                 line-height: 30px;
-
+                padding:0 5px;
                 &:after {
                     content: '';
                     width: 0;
