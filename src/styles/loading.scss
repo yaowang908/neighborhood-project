@@ -1,52 +1,52 @@
 $backgroundColor: #e9e9e9;
-$progressBarColor:#3dfff2;
+$progressBarColor: #3dfff2;
 
-.loading{
-    width:100vw;
-    height:100%;
-    background-color:$backgroundColor;
-    position:absolute;
-    top:0;
+.loading {
+    width: 100vw;
+    height: 100%;
+    background-color: $backgroundColor;
+    position: absolute;
+    top: 0;
     display: block;
-    .circle{
-        border-radius:50%;
-        position:absolute;
-        top:50%;
-        left:50%;
+    .circle {
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
     } 
-    .top{
-        width:100px;
-        height:100px;
-        background-color:$backgroundColor;
-        margin-top:-50px;
-        margin-left:-50px;
-        z-index:999;
+    .top {
+        width: 100px;
+        height: 100px;
+        background-color: $backgroundColor;
+        margin-top: -50px;
+        margin-left: -50px;
+        z-index: 999;
     }
-    .bottom{
-        width:120px;
-        height:120px;
-        background-color:$progressBarColor;
-        margin-top:-60px;
-        margin-left:-60px;
-        z-index:100;
+    .bottom {
+        width: 120px;
+        height: 120px;
+        background-color: $progressBarColor;
+        margin-top: -60px;
+        margin-left: -60px;
+        z-index: 100;
     }
-    .cover{
-        position:absolute;
-        top:50%;
-        left:50%;
-        width:0;
-        height:0;
+    .cover {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
         margin-top: -60px;
         margin-left: -60px;
         z-index: 200;
         border-right: 60px solid transparent;
-        border-top:60px solid $backgroundColor;
-        border-left:60px solid $backgroundColor;
-        border-bottom:60px solid $backgroundColor;
-        border-top-left-radius:60px;
-        border-top-right-radius:60px;
-        border-bottom-right-radius:60px;
-        border-bottom-left-radius:60px;
+        border-top: 60px solid $backgroundColor;
+        border-left: 60px solid $backgroundColor;
+        border-bottom: 60px solid $backgroundColor;
+        border-top-left-radius: 60px;
+        border-top-right-radius: 60px;
+        border-bottom-right-radius: 60px;
+        border-bottom-left-radius: 60px;
         //this pac-mac shape css comming from https://css-trick.com/the-shapes-of-css
         animation: rotation 2s infinite cubic-bezier(0.6, 0.15, 0.43, 0.85);
     }
@@ -55,22 +55,22 @@ $progressBarColor:#3dfff2;
             transform: rotate(0deg);
         }
         to {
-            transform:rotate(359deg);
+            transform: rotate(359deg);
         }
     }
-    .loadingP{
+    .loadingP {
         font-size: 2em;
         position: absolute;
-        color:$progressBarColor;
-        top:50%;
-        left:50%;
+        color: $progressBarColor;
+        top: 50%;
+        left: 50%;
         display: block;
         text-align: center;
-        width:200px;
-        height:100px;
+        width: 200px;
+        height: 100px;
         line-height: 100px;
-        margin-left:-100px;
-        margin-top:50px;
+        margin-left: -100px;
+        margin-top: 50px;
     }
 }
 

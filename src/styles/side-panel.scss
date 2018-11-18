@@ -2,21 +2,21 @@ $sidePanelBackground: #082068;
 $filterBackground: #3064ff;
 $textColor: #fff;
 
-div{
+div {
     margin: 0;
     padding: 0;
 }
-.side-panel{
-    width:25vw;
-    min-width:250px;
-    height:100%;
+.side-panel {
+    width: 25vw;
+    min-width: 250px;
+    height: 100%;
     position: absolute;
-    top:0;
-    left:0;
-    background-color:$sidePanelBackground;
-    .filter-container{
-        width:100%;
-        height:20vh;
+    top: 0;
+    left: 0;
+    background-color: $sidePanelBackground;
+    .filter-container {
+        width: 100%;
+        height: 20vh;
         position: relative;
         border-bottom: $filterBackground solid 1px;
         .map-style {
@@ -38,38 +38,38 @@ div{
                 float: left;
                 float: left;
                 margin-left: 10px;
-                &:after{
+                &:after {
                     clear: both;
                 }
             }
         }
-        .filter-wrap{
-            width:200px;
-            height:30px;
+        .filter-wrap {
+            width: 200px;
+            height: 30px;
             position: absolute;
-            top:50%;
-            left:50%;
-            margin-top:-15px;
-            margin-left:-100px;
+            top: 50%;
+            left: 50%;
+            margin-top: -15px;
+            margin-left: -100px;
             background-color: $filterBackground;
-            #filter-box{
-                width:140px;
-                height:30px;
+            #filter-box {
+                width: 140px;
+                height: 30px;
                 box-sizing: border-box;
                 position: relative;
-                margin:0;
-                padding:0;
-                border:0;
+                margin: 0;
+                padding: 0;
+                border: 0;
                 float: left;
             }
-            #search{
+            #search {
                 float: left;
                 width: 40px;
                 height: 30px;
                 color: $textColor;
                 text-align: center;
                 line-height: 30px;
-                padding:0 5px;
+                padding: 0 5px;
                 &:after {
                     content: '';
                     width: 0;
@@ -78,19 +78,18 @@ div{
                 }
             }
         }
-        
     }
-    .list-container{
-        width:100%;
-        height:80vh;
+    .list-container {
+        width: 100%;
+        height: 80vh;
         position: relative;
-        margin:0;
-        padding:0;
+        margin: 0;
+        padding: 0;
         overflow: hidden;
         box-sizing: border-box;
         overflow-y: scroll;
         &::-webkit-scrollbar {
-                display:none;
+                display: none;
             }
         ul {
             width: 100%;
@@ -109,16 +108,16 @@ div{
                 cursor: pointer;
                 .click-to-hide-marker {
                     position: absolute;
-                    right:10px;
+                    right: 10px;
                     cursor: pointer;
                 }
             }
         }
         .side-panel-bottom-placeholder {
-            width:100%;
-            padding:0;
-            margin:0;
-            height:50px;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            height: 50px;
         }
     }
 }
