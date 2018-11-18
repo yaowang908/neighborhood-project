@@ -34,11 +34,11 @@ export default function createMarker(map, searchText, platform, markerDomTemplat
         map.addObject(marker);
       });
       // console.log('Here comes an array!');
-      return true;
+      return latlng;
     } else {
       let marker = new H.map.DomMarker(latlng, {icon: icon});
       map.addObject(marker);
-      return true;
+      return latlng;
     }
 
   }).catch(function(err){

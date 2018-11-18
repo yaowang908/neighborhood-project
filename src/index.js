@@ -19,6 +19,7 @@ function MarkerModel(location) {
   this.address = location.address;
   this.iconLetter = location.iconLetter;
   this.type = location.type;
+  this.latlng = {};
   this.geoPoint = ko.observable();
   this.closeButtonEnabled = ko.observable(false);
 }
@@ -109,6 +110,7 @@ class MarkersViewModel {
               content: '<b>' + result.pageTitle + '</b><img src="' + result.url + '" width="150px"/>'
             });
             self.ui.addBubble(bubble);
+            self.map.setCenter(marker.latlng);//set map center 
             return result;
           });
         }).catch((err) => {
@@ -144,7 +146,8 @@ class MarkersViewModel {
             let bubble = new H.ui.InfoBubble(location, {
               content: '<b>' + result.name + '</b><p>'+result.address[0]+'</p><img src="' + result.url + '" width="150px"/>'
             });
-            self.ui.addBubble(bubble);
+            self.ui.addBubble(bubble);//add info bubble
+            self.map.setCenter(marker.latlng);//set map center 
             return result;
           });
         }).catch((err)=>{
@@ -164,7 +167,7 @@ class MarkersViewModel {
       //create each marker on map
       let addressToSearch = item.address;
       let markerDomTemplate = self.createMarkerDomTemplate(item.className + ' ' + item.type, item.iconLetter);
-      return self.myMapEvent.createMarker(self.map, addressToSearch, self.platform, markerDomTemplate);
+      return self.myMapEvent.createMarker(self.map, addressToSearch, self.platform, markerDomTemplate).then((ll)=>{item.latlng = ll});
     })
     ).then(() => {
       let objects = this.map.getObjects();
