@@ -8,6 +8,7 @@ import $ from 'jquery';
 import ko from 'knockout';
 import fourSquareApi from './Components/foursquareinit/index';
 import wikipediaApi from './Components/wikipedia/index';
+import customMapStyle from './Components/mapinit/customStyle';
 
 //KO strats here
 function MarkerModel(location) {
@@ -55,6 +56,11 @@ class MarkersViewModel {
                 }
             })
         });
+        self.mapStyle = ko.observable('night');
+        self.applyMapStyle = ko.computed(function () {
+            customMapStyle(self.platform, self.map, self.mapStyle());
+        });
+        self.switchMapStyle = self.switchMapStyle.bind(self);
     }
 
     createMarkerDomTemplate(markerClass, markerIconLetter) {
@@ -214,6 +220,14 @@ class MarkersViewModel {
         }
     }
 
+    switchMapStyle() {
+        let self = this;
+        if(self.mapStyle() === 'night') {
+            self.mapStyle('day');
+        } else {
+            self.mapStyle('night');
+        }
+    }
 }// end of viewModel class
 
 $(document).ready(function(){
@@ -226,7 +240,7 @@ $(document).ready(function(){
         let [platform, defaultLayers, map, ui] = value;
         let myMapEvent = new hereApiMapEvents(map);
         let markerViewModel = new MarkersViewModel(platform, defaultLayers, map, ui, myMapEvent, defaultLocations);
-        
+
         markerViewModel.init().then(function (result) {//call init, promise ends, returned all markers
             // console.log(result[0].icon.i.classList[1]);//get marker class name
             markerViewModel.onMapObjects = result;

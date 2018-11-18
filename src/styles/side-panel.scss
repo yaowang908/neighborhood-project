@@ -19,6 +19,30 @@ div{
         height:20vh;
         position: relative;
         border-bottom: $filterBackground solid 1px;
+        .map-style {
+            color: $textColor;
+            // margin: 5px 10px;
+            position: absolute;
+            width: 130px;
+            height: 25px;
+            top: 50%;
+            left: 50%;
+            margin-left: -65px;
+            margin-top: 20px;
+            cursor: pointer;
+            .prefix {
+                float: left;
+            }
+            .switch {
+                text-align: left;
+                float: left;
+                float: left;
+                margin-left: 10px;
+                &:after{
+                    clear: both;
+                }
+            }
+        }
         .filter-wrap{
             width:200px;
             height:30px;
