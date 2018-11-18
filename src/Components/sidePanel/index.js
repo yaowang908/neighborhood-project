@@ -4,5 +4,5 @@ import $ from 'jquery';
 import templateData from '../templates/side-panel-template.html';
 
 export default function sidePanel() {
-    $('body').append($(templateData));
+  $('body').append($(templateData));
 }
