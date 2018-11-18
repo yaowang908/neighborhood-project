@@ -67,7 +67,7 @@ class MarkersViewModel {
 
   createMarkerDomTemplate(markerClass, markerIconLetter) {
     //marker icon template
-    return '<div class="markers ' + markerClass + '"><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><rect stroke="white" fill="#1b468d" x="1" y="1" width="22" height="22" /><text x="12" y="18" font-size="12pt" font-family="Arial" font-weight="bold" text-anchor="middle" fill="white">' + markerIconLetter + '</text></svg></div>';
+    return '<div class="markers ' + markerClass + '"><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><rect class="marker_bg" stroke="white" fill="#1b468d" x="1" y="1" width="22" height="22" /><text x="12" y="18" font-size="12pt" font-family="Arial" font-weight="bold" text-anchor="middle" fill="white">' + markerIconLetter + '</text></svg></div>';
   }
 
   showDetail(marker, event, pureLatLng = false) {
@@ -124,18 +124,22 @@ class MarkersViewModel {
             let venueID = data.response.venues[0].id;
             return venueID;
           } else {
-
+            alert('Foursquare API err '+data.meta.code+'<br>'+data.meta.errDetail);
           }
         }).then((venueID)=>{
           self.fourSquare.detail(venueID).then((result)=>{
-            // console.log(result);
-            let photoUrl = self.fourSquare.bestPhotoUrl(result);
-            // console.log(photoUrl);
-            return {
-              url: photoUrl,
-              address:result.response.venue.location.formattedAddress,
-              name: result.response.venue.name
-            };
+            console.log(result);
+            if(result.meta.code == '200'){
+              let photoUrl = self.fourSquare.bestPhotoUrl(result);
+              // console.log(photoUrl);
+              return {
+                url: photoUrl,
+                address:result.response.venue.location.formattedAddress,
+                name: result.response.venue.name
+              };
+            } else {
+              alert('FourSquare API err ' + result.meta.code + ' Details: ' + result.meta.errorDetail);
+            }
           }).then((result)=>{
             let bubble = new H.ui.InfoBubble(location, {
               content: '<b>' + result.name + '</b><p>'+result.address[0]+'</p><img src="' + result.url + '" width="150px"/>'

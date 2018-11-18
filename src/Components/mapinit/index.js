@@ -10,9 +10,14 @@ export default function mapInit(mapCenterAddress) {
     $('.loadingP').css('margin-top', '80px');
     $('.loadingP').html('Error! Can\'t connect to Here.com.');
   }
+  // let platform = new H.service.Platform({
+  //   'app_id': 'hmO1N6Q0xkefhNezXaem',
+  //   'app_code': '9U0sBjTtpmZciXxSvfHFbg'
+  // });
+  //in case exceeded quota
   let platform = new H.service.Platform({
-    'app_id': 'hmO1N6Q0xkefhNezXaem',
-    'app_code': '9U0sBjTtpmZciXxSvfHFbg'
+    'app_id': 'WvMncEyLG4qN2LAMyoJI',
+    'app_code': 'ErwP7NMO4T_Jb3UvAkbXbg'
   });
     // Obtain the default map types from the platform object:
   let defaultLayers = platform.createDefaultLayers();

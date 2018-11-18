@@ -1,11 +1,29 @@
 import geocodingservice from '../services/geocoding';
 import getLatLng from '../services/getLatLng';
+import $ from 'jquery';
 
 export default function createMarker(map, searchText, platform, markerDomTemplate){
 
   // let markerIconDom = '<div class="markers '+markerClass+'"><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><rect stroke="white" fill="#1b468d" x="1" y="1" width="22" height="22" /><text x="12" y="18" font-size="12pt" font-family="Arial" font-weight="bold" text-anchor="middle" fill="white">'+ markerIconLetter +'</text></svg></div>'
   // console.dir(searchText);
-  let icon = new H.map.DomIcon(markerDomTemplate);
+  let icon = new H.map.DomIcon(markerDomTemplate,{
+    onAttach: function(clonedElement,domIcon,domMarker) {
+      $(clonedElement).css("transform",'translateY(-=10)');
+      $(clonedElement).animate({ 'top': '+=10' }, 100);
+
+      $(clonedElement).hover(function(){
+        //handler for mouse in
+        //bg color #d18c17
+        $(this).animate({'top': '-=10'},250);
+      },function(){
+        //handler for mouse out
+        $(this).animate({'top':'+=10'},100);
+      });
+    },
+    onDetach: function(clonedElement,domIcon, domMarker) {
+
+    }
+  });
 
   return getMarkerLatLng(searchText,platform).then(function(latlng){
     //get an objects array or one pair of lat lng
