@@ -27,7 +27,7 @@ You need install Node js, NPM/Yarn, Webpack to start developing.
 
 ## Authors
 
-* ** Yao Wang **
+* **Yao Wang**
 
 ## License
 
