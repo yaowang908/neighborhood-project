@@ -1,5 +1,6 @@
-<div class="side-panel">
+<div class="side-panel" data-bind="style: { left: toggleSidePanel }">
     <div class="filter-container">
+        <div class="hideAndShow md-48 md-light material-icons" data-bind="text: hideAndShow, click: toggleHideAndShow"></div>
         <div class="map-style" data-bind="click: switchMapStyle">
             <div class="prefix">Click me: </div>
             <div class="switch" data-bind="text: mapStyle"></div>

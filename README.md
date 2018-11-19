@@ -24,6 +24,8 @@ You need install Node js, NPM/Yarn, Webpack to start developing.
 * Map API: [Here.com](https://here.com)
 * Place API: [Foursquare](https://foursquare.com)
 * Place API: [MediaWiki](https://www.mediawiki.org)
+* Icons: [Material Icons](https://material.io/tools/icon/?style=baseline)
+* CSS Shape: [CSS-trick](https://css-trick.com/the-shapes-of-css)
 
 ## Authors
 

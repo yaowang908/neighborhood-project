@@ -64,6 +64,54 @@ class MarkersViewModel {
       customMapStyle(self.platform, self.map, self.mapStyle());
     });
     self.switchMapStyle = self.switchMapStyle.bind(self);
+    self.sidePanelIsShown = ko.observable(true);
+    self.toggleHideAndShow = function() {//show and hide button
+        // console.log(!self.sidePanelIsShown());
+        self.sidePanelIsShown(!self.sidePanelIsShown());
+        console.log(self.sidePanelIsShown());
+        window.dispatchEvent(new Event('resize'));//trigger map redraw
+    };
+    self.toggleSidePanel = ko.computed(function(){//show and hide function
+      if(self.sidePanelIsShown()){
+        return '0';
+      } else {
+        if($(window).width()>700) {
+          return '-20vw';
+        } else {
+          return '-220px';
+        }
+      }
+    });
+    self.hideAndShow = ko.computed(function () {
+      if (self.sidePanelIsShown()) {
+        return 'cancel';
+      } else {
+        return 'subject';
+      }
+    });
+    self.mapLeftMargin = ko.computed(function(){//set mapcontainer left margin
+      if (self.sidePanelIsShown()) {
+        if ($(window).width() > 700) {
+          return '25vw';
+        } else {
+          return '240px';
+        }
+      } else {
+        return 0;
+      }
+    });
+    self.mapWidth = ko.computed(function(){//set mapcontainer width
+      if (!self.sidePanelIsShown()) {
+        window.dispatchEvent(new Event('resize'));//trigger map redraw
+        return '100vw';
+      } else {
+        if ($(window).width() > 700) {
+          return '75vw';
+        } else {
+          return '100vw-250px';
+        }
+      }
+    });
   }
 
   createMarkerDomTemplate(markerClass, markerIconLetter) {
@@ -268,6 +316,16 @@ $(document).ready(function(){
     }).then(() => {
       ko.applyBindings(markerViewModel);
       // console.log(markerViewModel.onMapObjects);
-    });
+      return;
+    }).then(() => {
+      if ($(window).width() > 700) {//hide or show side panel when init
+        markerViewModel.sidePanelIsShown(true);
+      } else {
+        markerViewModel.sidePanelIsShown(false);
+      }
+      window.addEventListener('resize', function () {
+        map.getViewPort().resize();//redraw map when window resize
+      });
+    }).catch((err) => { alert(err) });
   });
 });

@@ -1,6 +1,7 @@
 $sidePanelBackground: #082068;
 $filterBackground: #3064ff;
 $textColor: #fff;
+$break: 700px;
 
 div {
     margin: 0;
@@ -14,11 +15,24 @@ div {
     top: 0;
     left: 0;
     background-color: $sidePanelBackground;
+    @media screen and (max-width: $break) {
+        left: -240px;
+    }
     .filter-container {
         width: 100%;
         height: 20vh;
         position: relative;
         border-bottom: $filterBackground solid 1px;
+        .hideAndShow {
+            color: $textColor;
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            cursor: pointer;
+            &::after {
+                clear: both;
+            }
+        }
         .map-style {
             color: $textColor;
             // margin: 5px 10px;
