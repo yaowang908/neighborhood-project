@@ -51,6 +51,7 @@ export default class wikipediaApi {
       let result = {url: thumbnailUrl, height: thumbnailHeight, width: thumbnailWidth, pageTitle: pageTitle};
       return result;
     }).fail((err) => {
+      console.dir(err);
       alert(err);
     });
   }
