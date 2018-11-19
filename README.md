@@ -7,7 +7,7 @@ Display some my favorite places and restaurants in Manhattan NY.
 You need install Node js to run this app.
 
 * Clone this repository to local machine.
-* Open terminal in folder, run ```node server.js```.
+* Open terminal in folder, run ```yarn start```.
 * Open chrome browser(recommended), go to ```localhost:2000```.
 
 ## Development
