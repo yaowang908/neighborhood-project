@@ -327,5 +327,8 @@ $(document).ready(function(){
         map.getViewPort().resize();//redraw map when window resize
       });
     }).catch((err) => { alert(err) });
+  }).catch(e=>{
+    console.log(e);
+    window.confirm("Load unsafe script from address bar to load this app. There is not any information exchange.")
   });
 });
