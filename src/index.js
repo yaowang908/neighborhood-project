@@ -66,10 +66,10 @@ class MarkersViewModel {
     self.switchMapStyle = self.switchMapStyle.bind(self);
     self.sidePanelIsShown = ko.observable(true);
     self.toggleHideAndShow = function() {//show and hide button
-        // console.log(!self.sidePanelIsShown());
-        self.sidePanelIsShown(!self.sidePanelIsShown());
-        console.log(self.sidePanelIsShown());
-        window.dispatchEvent(new Event('resize'));//trigger map redraw
+      // console.log(!self.sidePanelIsShown());
+      self.sidePanelIsShown(!self.sidePanelIsShown());
+      console.log(self.sidePanelIsShown());
+      window.dispatchEvent(new Event('resize'));//trigger map redraw
     };
     self.toggleSidePanel = ko.computed(function(){//show and hide function
       if(self.sidePanelIsShown()){
@@ -158,7 +158,7 @@ class MarkersViewModel {
               content: '<b>' + result.pageTitle + '</b><img src="' + result.url + '" width="150px"/>'
             });
             self.ui.addBubble(bubble);
-            self.map.setCenter(marker.latlng);//set map center 
+            self.map.setCenter(marker.latlng);//set map center
             return result;
           });
         }).catch((err) => {
@@ -195,7 +195,7 @@ class MarkersViewModel {
               content: '<b>' + result.name + '</b><p>'+result.address[0]+'</p><img src="' + result.url + '" width="150px"/>'
             });
             self.ui.addBubble(bubble);//add info bubble
-            self.map.setCenter(marker.latlng);//set map center 
+            self.map.setCenter(marker.latlng);//set map center
             return result;
           });
         }).catch((err)=>{
@@ -215,7 +215,9 @@ class MarkersViewModel {
       //create each marker on map
       let addressToSearch = item.address;
       let markerDomTemplate = self.createMarkerDomTemplate(item.className + ' ' + item.type, item.iconLetter);
-      return self.myMapEvent.createMarker(self.map, addressToSearch, self.platform, markerDomTemplate).then((ll)=>{item.latlng = ll});
+      return self.myMapEvent.createMarker(self.map, addressToSearch, self.platform, markerDomTemplate).then((ll)=>{
+        item.latlng = ll;
+      });
     })
     ).then(() => {
       let objects = this.map.getObjects();
@@ -326,9 +328,11 @@ $(document).ready(function(){
       window.addEventListener('resize', function () {
         map.getViewPort().resize();//redraw map when window resize
       });
-    }).catch((err) => { alert(err) });
+    }).catch((err) => {
+      alert(err);
+    });
   }).catch(e=>{
     console.log(e);
-    window.confirm("Load unsafe script from address bar to load this app. There is not any information exchange.")
+    window.confirm('Load unsafe script from address bar to load this app. There is not any information exchange.');
   });
 });

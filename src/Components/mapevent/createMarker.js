@@ -8,16 +8,16 @@ export default function createMarker(map, searchText, platform, markerDomTemplat
   // console.dir(searchText);
   let icon = new H.map.DomIcon(markerDomTemplate,{
     onAttach: function(clonedElement,domIcon,domMarker) {
-      $(clonedElement).css("transform",'translateY(-=10)');
+      $(clonedElement).css('transform','translateY(-=10)');
       $(clonedElement).animate({ 'top': '+=10' }, 100);
 
       $(clonedElement).hover(function(){
         //handler for mouse in
         //bg color #d18c17
-        $(this).animate({'top': '-=10'},250);
+        $(this).animate({ 'top': '-=10' },250);
       },function(){
         //handler for mouse out
-        $(this).animate({'top':'+=10'},100);
+        $(this).animate({ 'top':'+=10' },100);
       });
     },
     onDetach: function(clonedElement,domIcon, domMarker) {
@@ -30,13 +30,13 @@ export default function createMarker(map, searchText, platform, markerDomTemplat
     //set markers on map
     if (Array.isArray(latlng)){
       latlng.map((x) => {
-        let marker = new H.map.DomMarker(x, {icon: icon});
+        let marker = new H.map.DomMarker(x, { icon: icon });
         map.addObject(marker);
       });
       // console.log('Here comes an array!');
       return latlng;
     } else {
-      let marker = new H.map.DomMarker(latlng, {icon: icon});
+      let marker = new H.map.DomMarker(latlng, { icon: icon });
       map.addObject(marker);
       return latlng;
     }

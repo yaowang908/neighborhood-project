@@ -1,5 +1,5 @@
 import createMarkerComponent from './createMarker';
-import {getMarkerLatLng} from './createMarker';
+import { getMarkerLatLng } from './createMarker';
 
 export default class hereApiMapEvents {
 

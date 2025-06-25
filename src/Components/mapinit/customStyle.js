@@ -1,7 +1,7 @@
 import $ from 'jquery';
 
 export default function customStyle(platform,map,selectedMapStyle) {
-  let mapTileService = platform.getMapTileService({'type':'base'});
+  let mapTileService = platform.getMapTileService({ 'type':'base' });
   let mapSchemesID = {
     day: 'normal.day',
     night: 'normal.night.grey',
