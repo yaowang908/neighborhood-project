@@ -48,7 +48,7 @@ export default class wikipediaApi {
       let thumbnailWidth = x.query.pages[0].thumbnail.width;
       let pageTitle = x.query.pages[0].title;
       // console.dir(x);
-      let result = {url: thumbnailUrl, height: thumbnailHeight, width: thumbnailWidth, pageTitle: pageTitle};
+      let result = { url: thumbnailUrl, height: thumbnailHeight, width: thumbnailWidth, pageTitle: pageTitle };
       return result;
     }).fail((err) => {
       console.dir(err);

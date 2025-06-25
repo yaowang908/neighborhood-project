@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const distPath = path.resolve(__dirname,"dist/");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     entry:{
@@ -23,7 +23,7 @@ module.exports = {
                 exclude:/(node_modules|bower_components)/,
                 use:{
                     loader:'babel-loader',
-                    options:{presets:['env']}
+                    options:{presets:['@babel/preset-env']}
                 }
             },
             {
@@ -72,7 +72,7 @@ module.exports = {
 
     },
     plugins:[
-        new CleanWebpackPlugin(['dist/*.*']),
+        new CleanWebpackPlugin(),
         new webpack.ProvidePlugin({
             $:"jquery",
             jQuery:'jquery',
